@@ -1,0 +1,425 @@
+
+/**
+   An interface for the ADT deque.
+   @author Frank M. Carrano
+   @author Timothy M. Henry
+   @version 4.0
+*/
+public interface DequeInterface<T>
+{
+   /** Adds a new entry to the front/back of this dequeue.
+       @param newEntry  An object to be added. */
+   public void addToFront(T newEntry);
+   public void addToBack(T newEntry);
+   
+   /** Removes and returns the front/back entry of this dequeue.
+       @return  The object at the front/back of the dequeue.
+       @throws  EmptyQueueException if the dequeue is empty before the operation. */
+   public T removeFront();
+   public T removeBack();
+   
+   /** Retrieves the front/back entry of this dequeue.
+       @return  The object at the front/back of the dequeue.
+       @throws  EmptyQueueException if the dequeue is empty before the operation. */
+   public T getFront();
+   public T getBack();
+   
+   /*  Detects whether this dequeue is empty.
+       @return  True if the queue is empty, or false otherwise. */
+   public boolean isEmpty();
+   
+   /*  Removes all entries from this dequeue. */
+   public void clear();
+} // end DequeInterface
+/**
+ * 	A class implementing an ADT QUEUE using doubly linked node.
+ * @author Isaac Kim
+ * @version 1.0
+ *
+ */
+public class DLDeque<T> implements DequeInterface<T>{
+	
+	private DLNode<T> head;	//beginning of line
+	@SuppressWarnings("unused")
+	private DLNode<T> tail;	//end of line
+	
+	public DLDeque(){
+		head=null;
+		tail=null;
+	}
+	
+	public DLDeque(T newEntry){
+		@SuppressWarnings("unused")
+		DLNode<T> node = new DLNode<T>(newEntry);
+		head=node;
+		tail=node;
+	}
+
+	@SuppressWarnings("unused")
+	public DLDeque(T newEntry1, T newEntry2){
+		DLNode<T> node1 = new DLNode<T>(newEntry1);
+		DLNode<T> node2 = new DLNode<T>(newEntry2);
+		head=node1;
+		tail=node2;
+		node1.setPrev(node2);
+		node2.setNext(node1);
+	}
+	
+	public void addToFront(T newEntry){
+		if(head==null){
+			@SuppressWarnings("unused")
+			DLNode<T> node = new DLNode<T>(newEntry);
+			head=node;
+			tail=node;
+		}
+		else{	
+			@SuppressWarnings("unused")
+			DLNode<T> node = new DLNode<T>(newEntry);
+			head.setNext(node);
+			node.setPrev(head);
+			head=node;
+		}
+	}
+	
+	public void addToBack(T newEntry){
+		if(head==null){
+			@SuppressWarnings("unused")
+			DLNode<T> node = new DLNode<T>(newEntry);
+			head=node;
+			tail=node;
+		}
+		else{
+			@SuppressWarnings("unused")
+			DLNode<T> node = new DLNode<T>(newEntry);
+			tail.setPrev(node);
+			node.setNext(tail);
+			tail=node;
+		}
+	}
+	
+	public T removeFront(){
+		if(head==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else{
+			T temp = head.getData();
+			head.deleteData();
+			if(head.getPrev()==null){
+				head=null;
+				tail=null;
+			}
+			else{
+				head=head.getPrev();
+				head.setNext(null);
+			}
+			return temp;
+		}
+		//check if there is data in the front if NOT exception
+		//hold data in temp variable
+		//delete data in DLNode (for security)
+		//move head to next
+		//only if there is a DLNode that head is pointing to then move its prev to null.
+	}
+	
+	public T removeBack(){
+		if(tail==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else{
+			T temp = tail.getData();
+			tail.deleteData();
+			if(tail.getPrev()==null){
+				head=null;
+				tail=null;
+			}
+			else{
+				tail=tail.getNext();
+				tail.setPrev(null);
+			}
+			return temp;
+		}
+		//check if there is data in the front if NOT exception
+		//hold data in temp variable
+		//delete data in DLNode (for security)
+		//move tail to prev
+		//only if there is a DLNode that tail is pointing to then move its next to null.
+	}
+	
+	public boolean isEmpty(){
+		if(head==null)
+			return true;
+		else
+			return false;
+	}
+
+	public T getFront() {
+		if(head==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else
+			return head.getData();
+	}
+
+	public T getBack(){
+		if(tail==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else
+			return tail.getData();
+	}
+
+	}
+
+	public void clear() {
+		head=null;
+		tail=null;
+	}
+}
+
+public class DLNode<T> {
+
+	private DLNode<T> prev;
+	private DLNode<T> next;
+	private T data;
+	
+	public DLNode(){
+		prev=null;
+		next=null;
+		data=null;
+	}
+	
+	public DLNode(T newEntry){
+		prev=null;
+		next=null;
+		data=newEntry;
+	}
+	
+	public void setPrev(DLNode<T> previous){
+		prev=previous;
+	}
+	public void setNext(DLNode<T> nextnode){
+		next=nextnode;
+	}
+	public void deleteData(){
+		data=null;
+	}
+	public T getData(){
+		return data;
+	}
+	public DLNode<T> getPrev(){
+		return prev;
+	}
+	public DLNode<T> getNext(){
+		return next;
+	}
+}
+
+@SuppressWarnings("serial")
+public class EmptyQueueException extends Exception{
+	public EmptyQueueException(String message){
+		super(message);
+	}
+}
+
+public class Node<T>{
+	
+	private Node<T> next;
+	private T data;
+	
+	public Node(){
+		next=null;
+		data=null;
+	}
+	
+	public Node(T newEntry){
+		next=null;
+		data=newEntry;
+	}
+	
+	public void setNext(Node<T> nextnode){
+		next=nextnode;
+	}
+	public void deleteData(){
+		data=null;
+	}
+	public T getData(){
+		return data;
+	}
+	public Node<T> getNext(){
+		return next;
+	}
+}
+public class Deque<T> {
+	private Node<T> head;	//beginning of line
+	private Node<T> tail;	//end of line
+	
+	public Deque(){
+		head=null;
+		tail=null;
+	}
+	
+	public Deque(T newEntry){
+		Node<T> node = new Node<T>(newEntry);
+		head=node;
+		tail=node;
+	}
+
+	public Deque(T newEntry1, T newEntry2){
+		Node<T> node1 = new Node<T>(newEntry1);
+		Node<T> node2 = new Node<T>(newEntry2);
+		head=node1;
+		tail=node2;
+		node2.setNext(node1);
+	}
+	
+	public void addToFront(T newEntry){
+		if(head==null){
+			@SuppressWarnings("unused")
+			Node<T> node = new Node<T>(newEntry);
+			head=node;
+			tail=node;
+		}
+		else{	
+			@SuppressWarnings("unused")
+			Node<T> node = new Node<T>(newEntry);
+			head.setNext(node);
+			head=node;
+		}
+	}
+	
+	public void addToBack(T newEntry){
+		if(head==null){
+			@SuppressWarnings("unused")
+			Node<T> node = new Node<T>(newEntry);
+			head=node;
+			tail=node;
+		}
+		else{
+			@SuppressWarnings("unused")
+			Node<T> node = new Node<T>(newEntry);
+			node.setNext(tail);
+			tail=node;
+		}
+	}
+	
+	public T removeFront(){
+		if(head==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else{
+			T temp = head.getData();
+			head.deleteData();
+			if(head==tail){
+				head=null;
+				tail=null;
+			}
+			else{
+				Node<T> tempnode=tail;
+				while(tempnode.getNext().getNext()!=null)
+					tempnode=tempnode.getNext();
+				head=tempnode;
+				head.setNext(null);
+			}
+			return temp;
+		}
+		//check if there is data in the front if NOT exception
+		//hold data in temp variable
+		//delete data in DLNode (for security)
+		//move head to next
+		//only if there is a DLNode that head is pointing to then move its prev to null.
+	}
+	
+	public T removeBack(){
+		if(tail==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else{
+			T temp = tail.getData();
+			tail.deleteData();
+			if(tail==null){
+				head=null;
+				tail=null;
+			}
+			else{
+				tail=tail.getNext();
+			}
+			return temp;
+		}
+		//check if there is data in the front if NOT exception
+		//hold data in temp variable
+		//delete data in DLNode (for security)
+		//move tail to prev
+		//only if there is a DLNode that tail is pointing to then move its next to null.
+	}
+	
+	public boolean isEmpty(){
+		if(head==null)
+			return true;
+		else
+			return false;
+	}
+
+	public T getFront() {
+		if(head==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else
+			return head.getData();
+	}
+
+	public T getBack(){
+		if(tail==null){
+			try {
+				throw new EmptyQueueException("There's nothing there");
+			} catch (EmptyQueueException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else
+			return tail.getData();
+	}
+
+	}
+
+	public void clear() {
+		head=null;
+		tail=null;
+	}
+}
+}
