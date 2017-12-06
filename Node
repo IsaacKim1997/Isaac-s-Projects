@@ -1,0 +1,29 @@
+public class Node{
+	
+	@SuppressWarnings("unused")
+	private Node next;
+	@SuppressWarnings("unused")
+	private int data;
+	
+	public Node(){
+		next=null;
+	}
+	
+	public Node(int newEntry){
+		next=null;
+		data=newEntry;
+	}
+	
+	public void setNext(Node nextnode){
+		next=nextnode;
+	}
+	public void deleteData(){
+		data=0;
+	}
+	public int getData(){
+		return data;
+	}
+	public Node getNext(){
+		return next;
+	}
+}
