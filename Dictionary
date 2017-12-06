@@ -1,0 +1,28 @@
+
+public class Dictionary {
+
+	private int[] dictionary;
+	private int defaultCapacity=10000;
+	private int topIndex;
+	
+	public Dictionary() {
+		dictionary=new int[defaultCapacity];
+		topIndex=-1;
+		
+	}
+	
+	public void add(int customerNumber, int tryOrder) {
+		dictionary[customerNumber]=tryOrder;
+		topIndex++;
+	}
+
+	public int getValue(int keyFinder) {
+		return dictionary[keyFinder];
+	}
+
+	public int getSize() {
+		int size=topIndex+1;
+		return size;
+	}
+
+}
