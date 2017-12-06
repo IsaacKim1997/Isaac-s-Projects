@@ -1,0 +1,39 @@
+
+public class Stack {
+
+	private int[] stack;
+	private int topIndex;
+	private int defaultCapacity=1000;
+	
+	public Stack() {
+		stack= new int[defaultCapacity];
+		topIndex=-1;
+	}
+	
+	public int getSize() {
+		int size=topIndex+1;
+		return size;
+	}
+
+	public void push(int item) {
+		stack[topIndex+1]=item;
+		topIndex++;
+	}
+
+	public int pop() {
+		if(topIndex!=-1) {
+		int temp=stack[topIndex];
+		stack[topIndex]=0;
+		topIndex--;
+		return temp;
+		}
+		return -1;
+	}
+	public int peek() {
+		if(topIndex!=-1)
+		return stack[topIndex];
+		return -1;
+	}
+	
+
+}
