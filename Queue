@@ -1,0 +1,83 @@
+	public class Queue{
+		private Node head;	//beginning of line
+		private Node tail;	//end of line
+		
+		public Queue(){
+			head=null;
+			tail=null;
+		}
+		
+		public Queue(int newEntry){
+			Node node = new Node(newEntry);
+			head=node;
+			tail=node;
+		}
+		
+		public void enqueue(int newEntry){
+			if(head==null){
+				Node node = new Node(newEntry);
+				head=node;
+				tail=node;
+			}
+			else{
+				Node node = new Node(newEntry);
+				node.setNext(tail);
+				tail=node;
+			}
+		}
+		
+		public int dequeue(){
+			if(tail==null){
+				try {
+					throw new EmptyQueueException("There's nothing there");
+				} catch (EmptyQueueException e) {
+					e.printStackTrace();
+				}
+				return 0;
+			}
+			else{
+				int temp = tail.getData();
+				tail.deleteData();
+				if(tail==null){
+					head=null;
+					tail=null;
+				}
+				else{
+					tail=tail.getNext();
+				}
+				return temp;
+			}
+			//check if there is data in the front if NOT exception
+			//hold data in temp variable
+			//delete data in DLNode (for security)
+			//move tail to prev
+			//only if there is a DLNode that tail is pointing to then move its next to null.
+		}
+		
+		public boolean isEmpty(){
+			if(head==null)
+				return true;
+			else
+				return false;
+		}
+
+		public int getFront() {
+			if(head==null){
+				try {
+					throw new EmptyQueueException("There's nothing there");
+				} catch (EmptyQueueException e) {
+					e.printStackTrace();
+				}
+				return 0;
+			}
+			else
+				return head.getData();
+		}
+
+		public void clear() {
+			head=null;
+			tail=null;
+		}
+	}	
+	
+
