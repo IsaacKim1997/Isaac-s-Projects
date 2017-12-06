@@ -1,0 +1,292 @@
+import java.util.Random;
+public class InNOut {
+	public static void main(String args[]) {
+		Random rand = new Random();
+		Stack temp = new Stack();
+		Stack bunStack = new Stack();
+		Stack pattyStack = new Stack();
+		Stack lettuceStack = new Stack();
+		Stack tomatoStack = new Stack();
+		Stack onionStack = new Stack();
+		Stack cheeseStack = new Stack();
+		int customerNumber=1;
+		int wasteBun=0;
+		int wastePatty=0;
+		int wasteLettuce=0;
+		int wasteTomato=0;
+		int wasteOnion=0;
+		int wasteCheese=0;
+		int countItemOne=0;
+		int countItemTwo=0;
+		int countItemThree=0;
+		int countItemFour=0;
+		int countItemFive=0;
+		int countItemSix=0;
+		Queue customerLine = new Queue();
+		int day=1;
+		int nextShipment=1;
+		while(day!=32) {
+			if(day==nextShipment) {
+				int addBun=0;
+				int addPatty=0;
+				int addLettuce=0;
+				int addTomato=0;
+				int addOnion=0;
+				int addCheese=0;
+				int shipmentSize= rand.nextInt(301) + 700;
+				 for(int i=shipmentSize;i>0;i--){
+					 int sorter=rand.nextInt(6)+1;
+					 if(sorter==1)
+						 addBun++;
+					 else if(sorter==2)
+						 addPatty++;
+					 else if(sorter==3)
+						 addLettuce++;
+					 else if(sorter==4)
+						 addTomato++;
+					 else if(sorter==5)
+						 addOnion++;
+					 else if(sorter==6)
+						 addCheese++;
+				 }
+				 if(bunStack.getSize()!=0) {
+					 for(int i=bunStack.getSize();i>0;i--) {
+						 temp.push(bunStack.pop());
+					 }
+				 }
+				 for(int j=addBun;j>0;j--) {
+					 bunStack.push(day+4);
+				 }
+				 if(bunStack.getSize()!=0) {
+					 for(int h=temp.getSize();h>0;h--) {
+						 bunStack.push(temp.pop());
+					 }
+				 }
+				 if(pattyStack.getSize()!=0) {
+					 for(int i=pattyStack.getSize();i>0;i--) {
+						 temp.push(pattyStack.pop());
+					 }
+				 }
+				 for(int j=addPatty;j>0;j--) {
+					 pattyStack.push(day+3);
+				 }
+				 if(pattyStack.getSize()!=0) {
+					 for(int h=temp.getSize();h>0;h--) {
+						 pattyStack.push(temp.pop());
+					 }
+				 }
+				 if(lettuceStack.getSize()!=0) {
+					 for(int i=lettuceStack.getSize();i>0;i--) {
+						 temp.push(lettuceStack.pop());
+					 }
+				 }
+				 for(int j=addLettuce;j>0;j--) {
+					 lettuceStack.push(day+2);
+				 }
+				 if(lettuceStack.getSize()!=0) {
+					 for(int h=temp.getSize();h>0;h--) {
+						 lettuceStack.push(temp.pop());
+					 }
+				 }
+				 if(tomatoStack.getSize()!=0) {
+					 for(int i=tomatoStack.getSize();i>0;i--) {
+						 temp.push(tomatoStack.pop());
+					 }
+				 }
+				 for(int j=addTomato;j>0;j--) {
+					 tomatoStack.push(day+2);
+				 }
+				 if(tomatoStack.getSize()!=0) {
+					 for(int h=temp.getSize();h>0;h--) {
+						 tomatoStack.push(temp.pop());
+					 }
+				 }
+				 if(onionStack.getSize()!=0) {
+					 for(int i=onionStack.getSize();i>0;i--) {
+						 temp.push(onionStack.pop());
+					 }
+				 }
+				 for(int j=addOnion;j>0;j--) {
+					 onionStack.push(day+4);
+				 }
+				 if(onionStack.getSize()!=0) {
+					 for(int h=temp.getSize();h>0;h--) {
+						 onionStack.push(temp.pop());
+					 }
+				 }
+				 
+				 if(cheeseStack.getSize()!=0) {
+					 for(int i=cheeseStack.getSize();i>0;i--) {
+						 temp.push(cheeseStack.pop());
+					 }
+				 }
+				 for(int j=addCheese;j>0;j--) {
+					 cheeseStack.push(day+1);
+				 }
+				 if(cheeseStack.getSize()!=0) {
+					 for(int h=temp.getSize();h>0;h--) {
+						 cheeseStack.push(temp.pop());
+					 }
+				 }
+				 nextShipment=day+rand.nextInt(4)+3;
+			}			
+			Dictionary customerOrders=new Dictionary();
+			int lostCustomerDay=0;
+			int hour=0;
+			while(hour!=10) {
+				int visitors=rand.nextInt(100)+1;
+				int customers=0;
+				if(visitors>50) {
+					customers=50;
+					lostCustomerDay=lostCustomerDay+visitors-50;
+				}
+				if(visitors<51)
+					customers=visitors;
+				for(int i=customers;i>0;i--) {
+					int order=rand.nextInt(6)+1;
+					customerLine.enqueue(order);
+				}
+				for(int i=customers;i>0;i--) {
+					int tryOrder=customerLine.dequeue();
+					if(tryOrder==1) {
+						if(bunStack.getSize()!=0 && pattyStack.getSize()!=0 && lettuceStack.getSize()!=0 && 
+								tomatoStack.getSize()!=0 && onionStack.getSize()!=0) {
+							bunStack.pop();
+							pattyStack.pop();
+							lettuceStack.pop();
+							tomatoStack.pop();
+							onionStack.pop();
+							customerOrders.add(customerNumber, tryOrder);
+							customerNumber++;
+							countItemOne++;
+							}
+						else
+							lostCustomerDay++;
+					}
+					if(tryOrder==2) {
+						if(bunStack.getSize()!=0 && pattyStack.getSize()!=0 && lettuceStack.getSize()!=0 
+								&& tomatoStack.getSize()!=0 && onionStack.getSize()!=0 && cheeseStack.getSize()!=0) {
+							bunStack.pop();
+							pattyStack.pop();
+							lettuceStack.pop();
+							tomatoStack.pop();
+							onionStack.pop();
+							cheeseStack.pop();
+							customerOrders.add(customerNumber, tryOrder);
+							customerNumber++;
+							countItemTwo++;
+							}
+						else
+							lostCustomerDay++;
+					}
+					if(tryOrder==3) {
+						if(lettuceStack.getSize()>1 && 
+								tomatoStack.getSize()!=0 && onionStack.getSize()!=0) {
+							lettuceStack.pop();
+							lettuceStack.pop();
+							tomatoStack.pop();
+							onionStack.pop();
+							customerOrders.add(customerNumber, tryOrder);
+							customerNumber++;
+							countItemThree++;
+							}
+						else
+							lostCustomerDay++;
+					}
+					if(tryOrder==4) {
+						if(bunStack.getSize()!=0 && pattyStack.getSize()!=0 && lettuceStack.getSize()!=0 && tomatoStack.getSize()!=0) {
+							bunStack.pop();
+							pattyStack.pop();
+							lettuceStack.pop();
+							tomatoStack.pop();
+							customerOrders.add(customerNumber, tryOrder);
+							customerNumber++;
+							countItemFour++;
+							}
+						else
+							lostCustomerDay++;
+					}
+					if(tryOrder==5) {
+						if(bunStack.getSize()!=0 && pattyStack.getSize()!=0 && lettuceStack.getSize()!=0 && 
+								tomatoStack.getSize()!=0 && cheeseStack.getSize()!=0) {
+							bunStack.pop();
+							pattyStack.pop();
+							lettuceStack.pop();
+							tomatoStack.pop();
+							cheeseStack.pop();
+							customerOrders.add(customerNumber, tryOrder);
+							customerNumber++;
+							countItemFive++;
+							}
+						else
+							lostCustomerDay++;
+					}
+					if(tryOrder==6) {
+						if(bunStack.getSize()!=0 && pattyStack.getSize()!=0 && lettuceStack.getSize()!=0
+								&& tomatoStack.getSize()!=0 && onionStack.getSize()!=0) {
+							bunStack.pop();
+							pattyStack.pop();
+							lettuceStack.pop();
+							tomatoStack.pop();
+							onionStack.pop();
+							customerOrders.add(customerNumber, tryOrder);
+							customerNumber++;
+							countItemSix++;
+							}
+						else
+							lostCustomerDay++;
+					}
+				}
+				hour++;
+			}
+			while(bunStack.peek()==day || bunStack.peek()==0 ) {
+				bunStack.pop();
+				wasteBun++;
+			}
+			while(pattyStack.peek()==day || pattyStack.peek()==0) {
+				pattyStack.pop();
+				wastePatty++;
+			}
+			while(lettuceStack.peek()==day || lettuceStack.peek()==0) {
+				lettuceStack.pop();
+				wasteLettuce++;
+			}
+			while(tomatoStack.peek()==day || tomatoStack.peek()==0) {
+				tomatoStack.pop();
+				wasteTomato++;
+			}
+			while(onionStack.peek()==day || onionStack.peek()==0) {
+				onionStack.pop();
+				wasteOnion++;
+			}
+			while(cheeseStack.peek()==day || cheeseStack.peek()==0) {
+				cheeseStack.pop();
+				wasteCheese++;
+			}
+			System.out.println("Day "+ day);
+			System.out.println("1.\nlost customers-"+lostCustomerDay);
+			System.out.println("2.\nwaste cheese-"+ wasteCheese);
+			System.out.println("waste bun-"+ wasteBun);
+			System.out.println("waste onion-"+ wasteOnion);
+			System.out.println("waste lettuce-"+ wasteLettuce);
+			System.out.println("waste tomato-"+ wasteTomato);
+			System.out.println("waste patty-"+ wastePatty);
+			System.out.println("3.\nnumber ones-"+countItemOne);
+			System.out.println("number twos-"+countItemTwo);
+			System.out.println("number threes-"+countItemThree);
+			System.out.println("number fours-"+countItemFour);
+			System.out.println("number fives-"+countItemFive);
+			System.out.println("number sixes-"+countItemSix);
+			System.out.println("4.Dictionary");
+			int numberOfOrders=customerOrders.getSize();
+			int keyFinder=customerNumber-numberOfOrders;
+			for(int i=numberOfOrders;i>0;i--) {
+				System.out.println("customer"+keyFinder+"-"+customerOrders.getValue(keyFinder));
+				keyFinder++;
+			}
+			System.out.println();
+			day++;
+		}
+	}
+}
+	
